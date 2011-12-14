@@ -1,7 +1,7 @@
 var fs    = require('fs');
 
 module.exports = function requireAll(options) {
-  var files = fs.readdirSync(options.dirname);
+  var files   = fs.readdirSync(options.dirname);
   var modules = {};
 
   files.forEach(function(file) {
