@@ -1,0 +1,15 @@
+{
+  "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
+  "name": "require-all",
+  "description": "An easy way to require all files within a directory.",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "main": "./index",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
