@@ -5,11 +5,19 @@ module.exports = function requireAll(options) {
   var modules = {};
 
   files.forEach(function(file) {
-    var match = file.match(options.filter);
-    if (!match) return;
+    var filepath = options.dirname + '/' + file;
+    if (fs.statSync(filepath).isDirectory()) {
+      modules[file] = requireAll({
+        dirname: filepath,
+        filter: options.filter
+      });
 
-    var moduleName      = match[1];
-    modules[moduleName] = require(options.dirname + '/' + moduleName);
+    } else {
+      var match = file.match(options.filter);
+      if (!match) return;
+
+      modules[match[1]] = require(filepath);
+    }
   });
 
   return modules;
