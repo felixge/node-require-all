@@ -6,7 +6,7 @@ An easy way to require all files within a directory.
 
 ```js
 var controllers = require('require-all')({
-  directory: __dirname + '/controllers',
+  dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/,
 });
 
