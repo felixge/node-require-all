@@ -4,12 +4,20 @@ module.exports = function requireAll(options) {
   var files   = fs.readdirSync(options.dirname);
   var modules = {};
 
+  function excludeDirectory(dirname) {
+    return options.excludeDirs && dirname.match(options.excludeDirs);
+  }
+
   files.forEach(function(file) {
     var filepath = options.dirname + '/' + file;
     if (fs.statSync(filepath).isDirectory()) {
+
+      if (excludeDirectory(file)) return;
+
       modules[file] = requireAll({
-        dirname: filepath,
-        filter: options.filter
+        dirname     :  filepath,
+        filter      :  options.filter,
+        excludeDirs :  options.excludeDirs
       });
 
     } else {
