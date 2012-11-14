@@ -3,6 +3,9 @@
   "name": "require-all",
   "description": "An easy way to require all files within a directory.",
   "version": "0.0.5",
+  "scripts": {
+    "test": "node test/test.js"
+  },
   "repository": {
     "url": ""
   },
