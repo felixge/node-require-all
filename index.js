@@ -1,5 +1,6 @@
 var fs    = require('fs');
 
+// Returns false if the directory doesn't exist
 module.exports = function requireAll(options) {
   var files;
   var modules = {};
