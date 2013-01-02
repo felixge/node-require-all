@@ -1,8 +1,11 @@
 var fs    = require('fs');
 
+// Returns false if the directory doesn't exist
 module.exports = function requireAll(options) {
-  var files   = fs.readdirSync(options.dirname);
+  var files;
   var modules = {};
+  try { files = fs.readdirSync(options.dirname); }
+  catch (e) { return false; }
 
   function excludeDirectory(dirname) {
     return options.excludeDirs && dirname.match(options.excludeDirs);
