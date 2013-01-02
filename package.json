@@ -1,7 +1,7 @@
 {
   "name": "include-all",
   "version": "0.0.0",
-  "description": "An easy way to include all files within a directory. Note: This is a fork of felixge's require-all which allows for optional includes.",
+  "description": "An easy way to include all (or require all) files within a directory. Note: This is a fork of felixge's require-all which returns false instead of throwing an error if the directory doesn't exist.  This allows for optional includes, and relieves you from having to wrap the call to require-all in a try/catch.",
   "main": "index.js",
   "directories": {
     "test": "test"
