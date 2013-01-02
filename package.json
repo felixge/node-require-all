@@ -1,19 +1,26 @@
 {
-  "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
-  "name": "require-all",
-  "description": "An easy way to require all files within a directory.",
-  "version": "0.0.5",
+  "name": "include-all",
+  "version": "0.0.0",
+  "description": "An easy way to include all files within a directory. Note: This is a fork of felixge's require-all which allows for optional includes.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "node test/test.js"
+    "test": "mocha"
   },
   "repository": {
-    "url": ""
+    "type": "git",
+    "url": "git://github.com/mikermcneil/node-require-all.git"
   },
-  "main": "./index",
-  "engines": {
-    "node": "*"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "optionalDependencies": {}
+  "keywords": [
+    "require-all",
+    "include-all",
+    "include",
+    "require",
+    "directory"
+  ],
+  "author": "felixge+thlorenz, adapted by Mike McNeil",
+  "license": "MIT",
+  "readmeFilename": "Readme.md"
 }
