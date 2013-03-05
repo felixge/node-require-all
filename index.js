@@ -17,14 +17,15 @@ module.exports = function requireAll(options) {
       modules[file] = requireAll({
         dirname     :  filepath,
         filter      :  options.filter,
-        excludeDirs :  options.excludeDirs
+        excludeDirs :  options.excludeDirs,
+        dependencies : options.dependencies
       });
 
     } else {
       var match = file.match(options.filter);
       if (!match) return;
 
-      modules[match[1]] = require(filepath);
+      modules[match[1]] = require(filepath)(options.dependencies);
     }
   });
 
