@@ -23,9 +23,9 @@ module.exports = function requireAll(options) {
 
     } else {
       var match = file.match(options.filter);
-      if (!match) return;
-
-      modules[match[1]] = require(filepath)(options.dependencies);
+      if (match) {
+        modules[file.split('.')[0]] = require(filepath).apply(this, options.dependencies);
+      }
     }
   });
 
