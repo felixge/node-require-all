@@ -2,7 +2,7 @@
 var RequireAll = function() {
   fs = require('fs'),
 
-  loadAllModules : function (options) {
+  loadAllModules = function (options) {
     var files   = fs.readdirSync(options.dirname);
     var modules = {};
 
