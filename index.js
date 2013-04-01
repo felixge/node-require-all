@@ -2,8 +2,8 @@
 var RequireAll = function() {
   fs = require('fs'),
 
-  excludeDirectory = function (dirname) {
-    return options.excludeDirs && dirname.match(options.excludeDirs);
+  excludeDirectory = function (excludeDirs, dirname) {
+    return excludeDirs && dirname.match(excludeDirs);
   },
 
   loadAllModules = function (options) {
@@ -14,7 +14,7 @@ var RequireAll = function() {
       var filepath = options.dirname + '/' + file;
       if (fs.statSync(filepath).isDirectory()) {
 
-        if (excludeDirectory(file)) {
+        if (excludeDirectory(excludeDirs, file)) {
           return;
         }
 
