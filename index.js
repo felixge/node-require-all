@@ -2,6 +2,11 @@
 var RequireAll = function() {
   fs = require('fs'),
 
+  function excludeDirectory(dirname) {
+    console.log('************ ' + dirname);
+    return options.excludeDirs && dirname.match(options.excludeDirs);
+  },
+
   loadAllModules = function (options) {
     var files   = fs.readdirSync(options.dirname);
     var modules = {};
@@ -28,10 +33,6 @@ var RequireAll = function() {
         }
       }
     });
-  },
-
-  function excludeDirectory(dirname) {
-    return options.excludeDirs && dirname.match(options.excludeDirs);
   };
 
   return {
