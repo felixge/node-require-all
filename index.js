@@ -14,7 +14,7 @@ var RequireAll = function() {
       var filepath = options.dirname + '/' + file;
       if (fs.statSync(filepath).isDirectory()) {
 
-        if (excludeDirectory(excludeDirs, file)) {
+        if (excludeDirectory(options.excludeDirs, file)) {
           return;
         }
 
