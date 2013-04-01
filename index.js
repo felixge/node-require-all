@@ -2,7 +2,7 @@
 var RequireAll = function() {
   fs = require('fs'),
 
-  function excludeDirectory(dirname) {
+  function excludeDirectory (dirname) {
     console.log('************ ' + dirname);
     return options.excludeDirs && dirname.match(options.excludeDirs);
   },
@@ -15,6 +15,7 @@ var RequireAll = function() {
       var filepath = options.dirname + '/' + file;
       if (fs.statSync(filepath).isDirectory()) {
 
+        console.log('************+++ ' + file);
         if (excludeDirectory(file)) {
           return;
         }
