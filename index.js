@@ -18,7 +18,7 @@ var RequireAll = function() {
           return;
         }
 
-        modules[file] = requireAll({
+        modules[file] = loadAllModules({
           dirname     :  filepath,
           filter      :  options.filter,
           excludeDirs :  options.excludeDirs,
