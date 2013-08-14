@@ -13,7 +13,7 @@ var RequireAll = (function () {
                 modules = {};
     
             files.forEach(function (file) {
-                if (exclude(options.exclude, file)) {
+                if (exclude(options.excludeRegexp, file)) {
                     return;
                 }
                 
@@ -23,7 +23,7 @@ var RequireAll = (function () {
                     modules[file] = loadAllModules({
                         dirname     :  filepath,
                         filter      :  options.filter,
-                        exclude :  options.exclude,
+                        excludeRegexp :  options.excludeRegexp,
                         dependencies : options.dependencies
                     });
                 } else {
