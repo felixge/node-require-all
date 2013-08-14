@@ -4,8 +4,8 @@ var RequireAll = (function () {
     
     var fs = require('fs'),
 
-        excludeDirectory = function (excludeDirs, dirname) {
-            return excludeDirs && dirname.match(excludeDirs);
+        exclude = function (excludeRegexp, name) {
+            return excludeRegexp && name.match(excludeRegexp);
         },
 
         loadAllModules = function (options) {
@@ -13,7 +13,7 @@ var RequireAll = (function () {
                 modules = {};
     
             files.forEach(function (file) {
-                if (excludeDirectory(options.excludeDirs, file)) {
+                if (exclude(options.exclude, file)) {
                     return;
                 }
                 
@@ -23,7 +23,7 @@ var RequireAll = (function () {
                     modules[file] = loadAllModules({
                         dirname     :  filepath,
                         filter      :  options.filter,
-                        excludeDirs :  options.excludeDirs,
+                        exclude :  options.exclude,
                         dependencies : options.dependencies
                     });
                 } else {
