@@ -1,4 +1,5 @@
 var assert = require('assert');
+var semver = require('semver');
 var requireAll = require('..');
 
 var controllers = requireAll({
@@ -20,21 +21,35 @@ assert.deepEqual(controllers, {
   }
 });
 
-
-if (process.version > 'v0.6.0') {
+//
+// requiring json only became an option in 0.6+
+//
+if (semver.gt(process.version, 'v0.6.0')) {
   var mydir = requireAll({
     dirname: __dirname + '/mydir',
     filter: /(.+)\.(js|json)$/
   });
 
-  assert.deepEqual(mydir, {
+  var mydir_contents = {
     foo: 'bar',
-    hello: { world: true, universe: 42 },
+    hello: {
+      world: true,
+      universe: 42
+    },
     sub: {
-      config: { settingA: 'A', settingB: 'B' },
+      config: {
+        settingA: 'A',
+        settingB: 'B'
+      },
       yes: true
     }
-  });
+  };
+
+  assert.deepEqual(mydir, mydir_contents);
+
+  var defaults = requireAll(__dirname + '/mydir');
+
+  assert.deepEqual(defaults, mydir_contents);
 }
 
 var unfiltered = requireAll({
@@ -43,8 +58,8 @@ var unfiltered = requireAll({
 });
 
 assert(unfiltered['.svn']);
-assert(unfiltered['root']);
-assert(unfiltered['sub']);
+assert(unfiltered.root);
+assert(unfiltered.sub);
 
 var excludedSvn = requireAll({
   dirname: __dirname + '/filterdir',
@@ -53,8 +68,8 @@ var excludedSvn = requireAll({
 });
 
 assert.equal(excludedSvn['.svn'], undefined);
-assert.ok(excludedSvn['root']);
-assert.ok(excludedSvn['sub']);
+assert.ok(excludedSvn.root);
+assert.ok(excludedSvn.sub);
 
 var excludedSvnAndSub = requireAll({
   dirname: __dirname + '/filterdir',
@@ -63,5 +78,5 @@ var excludedSvnAndSub = requireAll({
 });
 
 assert.equal(excludedSvnAndSub['.svn'], undefined);
-assert.ok(excludedSvnAndSub['root']);
-assert.equal(excludedSvnAndSub['sub'], undefined);
+assert.ok(excludedSvnAndSub.root);
+assert.equal(excludedSvnAndSub.sub, undefined);

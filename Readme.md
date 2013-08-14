@@ -15,3 +15,11 @@ var controllers = require('require-all')({
 // for example:
 // { HomeController: function HomeController() {...}, ...}
 ```
+
+## Advanced usage
+
+If your objective is to simply require all .js and .json files in a directory you can just pass a string to require-all:
+
+``` js
+var libs = require('require-all')(__dirname + '/lib');
+```

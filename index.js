@@ -1,23 +1,31 @@
-var fs    = require('fs');
+var fs = require('fs');
 
 module.exports = function requireAll(options) {
-  var files   = fs.readdirSync(options.dirname);
+  if (typeof options === 'string') {
+    options = {
+      dirname: options,
+      filter: /(.+)\.js(on)?$/,
+      excludeDirs: /^\.(git|svn)$/
+    };
+  }
+
+  var files = fs.readdirSync(options.dirname);
   var modules = {};
 
   function excludeDirectory(dirname) {
     return options.excludeDirs && dirname.match(options.excludeDirs);
   }
 
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     var filepath = options.dirname + '/' + file;
     if (fs.statSync(filepath).isDirectory()) {
 
       if (excludeDirectory(file)) return;
 
       modules[file] = requireAll({
-        dirname     :  filepath,
-        filter      :  options.filter,
-        excludeDirs :  options.excludeDirs
+        dirname: filepath,
+        filter: options.filter,
+        excludeDirs: options.excludeDirs
       });
 
     } else {
@@ -30,4 +38,3 @@ module.exports = function requireAll(options) {
 
   return modules;
 };
-
