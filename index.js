@@ -32,6 +32,8 @@ var RequireAll = (function () {
                     }
                 }
             });
+
+            return modules;
         };
 
     return {
