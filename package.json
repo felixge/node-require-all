@@ -1,8 +1,8 @@
 {
-  "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
+  "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/), modifier: Peter Martin",
   "name": "require-all",
-  "description": "An easy way to require all files within a directory.",
-  "version": "0.0.8",
+  "description": "An easy way to require all files within a directory. Modified to support dependencies.",
+  "version": "0.0.9",
   "scripts": {
     "test": "node test/test.js"
   },

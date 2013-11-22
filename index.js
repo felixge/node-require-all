@@ -5,7 +5,8 @@ module.exports = function requireAll(options) {
     options = {
       dirname: options,
       filter: /(.+)\.js(on)?$/,
-      excludeDirs: /^\.(git|svn)$/
+      excludeDirs: /^\.(git|svn)$/,
+      dependencies : options.dependencies
     };
   }
 
@@ -32,7 +33,7 @@ module.exports = function requireAll(options) {
       var match = file.match(options.filter);
       if (!match) return;
 
-      modules[match[1]] = require(filepath);
+      modules[file.split('.')[0]] = require(filepath).apply(this, options.dependencies);
     }
   });
 
