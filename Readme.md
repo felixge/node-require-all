@@ -9,7 +9,7 @@ var controllers = require('require-all')({
   dirname     :  __dirname + '/controllers',
   filter      :  /(.+Controller)\.js$/,
   excludeDirs :  /^\.(git|svn)$/,
-  dependencies: [objects, ...] //if you want to pass some arguments
+  dependencies: [object, ...] //if you want to pass some arguments to the files you want to require
 });
 
 // controllers now is an object with references to all modules matching the filter
