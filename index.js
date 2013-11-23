@@ -33,7 +33,15 @@ module.exports = function requireAll(options) {
       var match = file.match(options.filter);
       if (!match) return;
 
-      modules[file.split('.')[0]] = require(filepath).apply(this, options.dependencies);
+      var req = require(filepath);
+      if(typeof(req.apply)=="function")
+      {
+        modules[file.split('.')[0]] = require(filepath).apply(this, options.dependencies);
+      }
+      else
+      {
+        modules[match[1]] = require(filepath);
+      }
     }
   });
 
