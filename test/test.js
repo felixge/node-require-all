@@ -80,3 +80,29 @@ var excludedSvnAndSub = requireAll({
 assert.equal(excludedSvnAndSub['.svn'], undefined);
 assert.ok(excludedSvnAndSub.root);
 assert.equal(excludedSvnAndSub.sub, undefined);
+
+var withDependencies = requireAll({
+  dirname: __dirname + '/dependencies',
+  filter: /(.+)\.js$/,
+  dependencies: ["arg1", "arg2"]
+});
+
+assert(withDependencies.onearg);
+assert(withDependencies.twoargs);
+
+var withoutDependencies = requireAll({
+  dirname: __dirname + '/dependencies',
+  filter: /(.+)\.js$/
+});
+
+assert(!withoutDependencies.onearg);
+assert(!withoutDependencies.twoargs);
+
+var oneDependency = requireAll({
+  dirname: __dirname + '/dependencies',
+  filter: /(.+)\.js$/,
+  dependencies: ["arg1"]
+});
+
+assert(oneDependency.onearg);
+assert(!oneDependency.twoargs);
