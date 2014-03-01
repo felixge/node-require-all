@@ -26,7 +26,8 @@ module.exports = function requireAll(options) {
       modules[file] = requireAll({
         dirname: filepath,
         filter: options.filter,
-        excludeDirs: options.excludeDirs
+        excludeDirs: options.excludeDirs,
+        dependencies : options.dependencies
       });
 
     } else {
