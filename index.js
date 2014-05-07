@@ -16,6 +16,9 @@ module.exports = function requireAll(options) {
     return options.excludeDirs && dirname.match(options.excludeDirs);
   }
 
+  if (options.sort)
+    files.sort(typeof options.sort == 'function' ? options.sort : undefined);
+
   files.forEach(function (file) {
     var filepath = options.dirname + '/' + file;
     if (fs.statSync(filepath).isDirectory()) {
@@ -25,7 +28,8 @@ module.exports = function requireAll(options) {
       modules[file] = requireAll({
         dirname: filepath,
         filter: options.filter,
-        excludeDirs: options.excludeDirs
+        excludeDirs: options.excludeDirs,
+        sort: options.sort
       });
 
     } else {
