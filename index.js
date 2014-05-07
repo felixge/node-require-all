@@ -14,8 +14,6 @@ function extend(obj, ext) {
 
 function requireAll(dirname, options) {
 
-  options = extend(options || {}, defaultOptions);
-
   var files = fs.readdirSync(dirname);
   var modules = {};
 
@@ -40,10 +38,12 @@ function requireAll(dirname, options) {
 }
 
 module.exports = function(dirname, options) {
-  if (typeof dirname == 'object')
-    return requireAll(dirname.dirname, {
+  if (typeof dirname == 'object') {
+    options = {
       filter: dirname.filter,
       excludeDirs: dirname.excludeDirs || false
-    });
-  return requireAll(dirname, options);
+    };
+    dirname = dirname.dirname;
+  }
+  return requireAll(dirname, extend(options || {}, defaultOptions));
 };
