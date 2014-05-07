@@ -1,1 +1,1 @@
-module.exports = { gute: 'nacht' };
+module.exports = true

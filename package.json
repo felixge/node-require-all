@@ -2,9 +2,9 @@
   "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
   "name": "require-all",
   "description": "An easy way to require all files within a directory.",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "scripts": {
-    "test": "node test/test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -16,13 +16,12 @@
       "url": "https://github.com/felixge/node-require-all/blob/master/License"
     }
   ],
-  "main": "./index",
+  "main": "./index.js",
   "engines": {
-    "node": "*"
+    "node": ">0.6"
   },
-  "dependencies": {},
   "devDependencies": {
-    "semver": "~2.1.0"
-  },
-  "optionalDependencies": {}
+    "blanket": "^1.1.6",
+    "should": "^3.3.1"
+  }
 }

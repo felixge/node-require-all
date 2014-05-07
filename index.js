@@ -1,44 +1,49 @@
 var fs = require('fs');
 
-module.exports = function requireAll(options) {
-  if (typeof options === 'string') {
-    options = {
-      dirname: options,
-      filter: /(.+)\.js(on)?$/,
-      excludeDirs: /^\.(git|svn)$/
-    };
-  }
+var defaultOptions = {
+  filter: /^(.+)\.js(on)?$/,
+  excludeDirs: /^\.(git|svn)$/
+};
 
-  var files = fs.readdirSync(options.dirname);
+function extend(obj, ext) {
+  for (var key in ext)
+    if (obj[key] === undefined)
+      obj[key] = ext[key];
+  return obj;
+}
+
+function requireAll(dirname, options) {
+
+  options = extend(options || {}, defaultOptions);
+
+  var files = fs.readdirSync(dirname);
   var modules = {};
 
-  function excludeDirectory(dirname) {
-    return options.excludeDirs && dirname.match(options.excludeDirs);
-  }
+  if (options.sort !== undefined)
+    files.sort(options.sort);
 
-  if (options.sort)
-    files.sort(typeof options.sort == 'function' ? options.sort : undefined);
-
-  files.forEach(function (file) {
-    var filepath = options.dirname + '/' + file;
+  files.forEach(function(file) {
+    var filepath = dirname + '/' + file;
     if (fs.statSync(filepath).isDirectory()) {
-
-      if (excludeDirectory(file)) return;
-
-      modules[file] = requireAll({
-        dirname: filepath,
-        filter: options.filter,
-        excludeDirs: options.excludeDirs,
-        sort: options.sort
-      });
-
+      if (!options.excludeDirs ||
+          options.excludeDirs !== true && !options.excludeDirs.test(file))
+        modules[file] = requireAll(filepath, options);
     } else {
       var match = file.match(options.filter);
-      if (!match) return;
-
-      modules[match[1]] = require(filepath);
+      if (match)
+        modules[match[1]] = require(filepath);
     }
   });
 
   return modules;
+
+}
+
+module.exports = function(dirname, options) {
+  if (typeof dirname == 'object')
+    return requireAll(dirname.dirname, {
+      filter: dirname.filter,
+      excludeDirs: dirname.excludeDirs || false
+    });
+  return requireAll(dirname, options);
 };

@@ -1,1 +1,1 @@
-module.exports = { guten: 'abend' };
+module.exports = true;
