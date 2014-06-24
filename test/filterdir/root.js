@@ -1,1 +1,1 @@
-module.exports = { guten: 'tag' };
+module.exports = true;

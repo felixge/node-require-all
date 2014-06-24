@@ -1,36 +1,25 @@
-var assert = require('assert');
-var semver = require('semver');
+require('blanket')({
+  pattern: require('path').join(__dirname, '../')
+});
+
 var requireAll = require('..');
 
-var controllers = requireAll({
-  dirname: __dirname + '/controllers',
-  filter: /(.+Controller)\.js$/
-});
+describe('require all', function() {
 
-assert.deepEqual(controllers, {
-  'main-Controller': {
-    index: 1,
-    show: 2,
-    add: 3,
-    edit: 4
-  },
+  var controllers = {
+    'main-Controller': {
+      index: 1,
+      show: 2,
+      add: 3,
+      edit: 4
+    },
+    'other-Controller': {
+      index: 1,
+      show: 'nothing'
+    }
+  };
 
-  'other-Controller': {
-    index: 1,
-    show: 'nothing'
-  }
-});
-
-//
-// requiring json only became an option in 0.6+
-//
-if (semver.gt(process.version, 'v0.6.0')) {
-  var mydir = requireAll({
-    dirname: __dirname + '/mydir',
-    filter: /(.+)\.(js|json)$/
-  });
-
-  var mydir_contents = {
+  var mydir = {
     foo: 'bar',
     hello: {
       world: true,
@@ -45,38 +34,87 @@ if (semver.gt(process.version, 'v0.6.0')) {
     }
   };
 
-  assert.deepEqual(mydir, mydir_contents);
+  it('should filter files with given `filter`', function() {
 
-  var defaults = requireAll(__dirname + '/mydir');
+    requireAll(__dirname + '/controllers', {
+      filter: /(.+Controller)\.js$/
+    }).should.eql(controllers);
 
-  assert.deepEqual(defaults, mydir_contents);
-}
+  });
 
-var unfiltered = requireAll({
-  dirname: __dirname + '/filterdir',
-  filter: /(.+)\.js$/
+
+  it('should include `sub/` and exclude `.svn/` without `excludeDirs`', function() {
+
+    requireAll(__dirname + '/mydir').should.eql(mydir);
+
+  });
+
+  it('should include all directories with `excludeDirs: false`', function() {
+
+    var unfiltered = requireAll(__dirname + '/filterdir', {
+      filter: /(.+)\.js$/,
+      excludeDirs: false
+    }).should.eql({
+      '.svn': {
+        stuff: true
+      },
+      sub: {
+        hello: true
+      },
+      root: true
+    });
+
+  });
+
+  it('should exclude directories with `excludeDirs: true` and `excludeDirs: /^/`', function() {
+
+    var res = {
+      root: true
+    };
+
+    requireAll(__dirname + '/filterdir', {
+      excludeDirs: true
+    }).should.eql(res);
+
+    requireAll(__dirname + '/filterdir', {
+      excludeDirs: /^/
+    }).should.eql(res);
+
+  });
+
+  it('should sort files first before require with given `sort`', function() {
+
+    Object.keys(requireAll(__dirname + '/order', {
+      excludeDirs: false,
+      sort: function (lhn, rhn) {
+        if (lhn > rhn)
+          return -1;
+        return 1;
+      }
+    })).should.eql(['3-1', '2-1', '1-1']);
+
+  });
+
+  it('should work with 0.0.8 style input', function() {
+
+    requireAll({
+      dirname: __dirname + '/controllers',
+      filter: /(.+Controller)\.js$/
+    }).should.eql(controllers);
+
+    requireAll({
+      dirname: __dirname + '/filterdir',
+      filter: /(.+)\.js$/,
+      excludeDirs: /^\.svn$/
+    }).should.eql({
+      root: true,
+      sub: {
+        hello: true
+      },
+    });
+
+  });
+
 });
 
-assert(unfiltered['.svn']);
-assert(unfiltered.root);
-assert(unfiltered.sub);
 
-var excludedSvn = requireAll({
-  dirname: __dirname + '/filterdir',
-  filter: /(.+)\.js$/,
-  excludeDirs: /^\.svn$/
-});
-
-assert.equal(excludedSvn['.svn'], undefined);
-assert.ok(excludedSvn.root);
-assert.ok(excludedSvn.sub);
-
-var excludedSvnAndSub = requireAll({
-  dirname: __dirname + '/filterdir',
-  filter: /(.+)\.js$/,
-  excludeDirs: /^(\.svn|sub)$/
-});
-
-assert.equal(excludedSvnAndSub['.svn'], undefined);
-assert.ok(excludedSvnAndSub.root);
-assert.equal(excludedSvnAndSub.sub, undefined);
