@@ -21,6 +21,30 @@ assert.deepEqual(controllers, {
   }
 });
 
+var controllersMap = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: /(.+Controller)\.js$/,
+  map: function (name) {
+    return name.replace(/-([A-Z])/, function (m, c) {
+      return '_' + c.toLowerCase();
+    });
+  }
+});
+
+assert.deepEqual(controllersMap, {
+  main_controller: {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  other_controller: {
+    index: 1,
+    show: 'nothing'
+  }
+});
+
 //
 // requiring json only became an option in 0.6+
 //

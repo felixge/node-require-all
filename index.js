@@ -12,6 +12,7 @@ module.exports = function requireAll(options) {
   var files = fs.readdirSync(options.dirname);
   var modules = {};
   var resolve = options.resolve || identity;
+  var map = options.map || identity;
 
   function excludeDirectory(dirname) {
     return options.excludeDirs && dirname.match(options.excludeDirs);
@@ -34,7 +35,7 @@ module.exports = function requireAll(options) {
       var match = file.match(options.filter);
       if (!match) return;
 
-      modules[match[1]] = resolve(require(filepath));
+      modules[map(match[1], filepath)] = resolve(require(filepath));
     }
   });
 

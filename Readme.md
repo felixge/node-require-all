@@ -24,7 +24,7 @@ If your objective is to simply require all .js and .json files in a directory yo
 var libs = require('require-all')(__dirname + '/lib');
 ```
 
-## Constructed object usage
+### Constructed object usage
 
 If your directory contains files that all export constructors, you can require them all and automatically construct the objects using `resolve`:
 
@@ -35,6 +35,23 @@ var controllers = require('require-all')({
   excludeDirs :  /^\.(git|svn)$/,
   resolve     : function (Controller) {
     return new Controller();
+  }
+});
+```
+
+### Alternative property names
+
+If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function:
+
+```js
+var controllers = require('require-all')({
+  dirname     :  __dirname + '/controllers',
+  filter      :  /(.+Controller)\.js$/,
+  excludeDirs :  /^\.(git|svn)$/,
+  map         : function (name, path) {
+    return name.replace(/_([a-z])/g, function (m, c) {
+      return c.toUpperCase();
+    });
   }
 });
 ```
