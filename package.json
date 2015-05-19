@@ -12,6 +12,11 @@
   "devDependencies": {
     "semver": "~2.1.0"
   },
+  "files": [
+    "index.js",
+    "License",
+    "Readme.md"
+  ],
   "engines": {
     "node": "*"
   },
