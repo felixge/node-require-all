@@ -13,8 +13,8 @@
     "semver": "~2.1.0"
   },
   "files": [
+    "LICENSE",
     "index.js",
-    "License",
     "Readme.md"
   ],
   "engines": {
