@@ -11,6 +11,7 @@ module.exports = function requireAll(options) {
 
   var files = fs.readdirSync(options.dirname);
   var modules = {};
+  var filter = options.filter || /^(.*)$/;
   var resolve = options.resolve || identity;
   var map = options.map || identity;
 
@@ -26,13 +27,13 @@ module.exports = function requireAll(options) {
 
       modules[file] = requireAll({
         dirname: filepath,
-        filter: options.filter,
+        filter: filter,
         excludeDirs: options.excludeDirs,
         resolve: resolve
       });
 
     } else {
-      var match = file.match(options.filter);
+      var match = file.match(filter);
       if (!match) return;
 
       modules[map(match[1], filepath)] = resolve(require(filepath));
