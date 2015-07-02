@@ -18,6 +18,13 @@ assert.deepEqual(controllers, {
   'other-Controller': {
     index: 1,
     show: 'nothing'
+  },
+
+  'sub-dir': {
+    'other-Controller': {
+      index: 1,
+      show: 2
+    }
   }
 });
 
@@ -42,6 +49,76 @@ assert.deepEqual(controllersMap, {
   other_controller: {
     index: 1,
     show: 'nothing'
+  },
+
+  'sub-dir': {
+    other_controller: {
+      index: 1,
+      show: 2
+    }
+  }
+});
+
+
+controllersMap = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: /(.+Controller)\.js$/,
+  map: function (name) {
+    return name.replace(/-([A-Za-z])/, function (m, c) {
+      return '_' + c.toLowerCase();
+    });
+  }
+});
+
+assert.deepEqual(controllersMap, {
+  main_controller: {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  other_controller: {
+    index: 1,
+    show: 'nothing'
+  },
+
+  sub_dir: {
+    other_controller: {
+      index: 1,
+      show: 2
+    }
+  }
+});
+
+controllersMap = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: /(.+Controller)\.js$/,
+  map: function (name) {
+    return name.replace(/-([A-Za-z])/, function (m, c) {
+      return '_' + c.toLowerCase();
+    });
+  }
+});
+
+assert.deepEqual(controllersMap, {
+  main_controller: {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  other_controller: {
+    index: 1,
+    show: 'nothing'
+  },
+
+  sub_dir: {
+    other_controller: {
+      index: 1,
+      show: 2
+    }
   }
 });
 

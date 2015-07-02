@@ -24,10 +24,11 @@ module.exports = function requireAll(options) {
 
       if (excludeDirectory(file)) return;
 
-      modules[file] = requireAll({
+      modules[map(file, filepath)] = requireAll({
         dirname: filepath,
         filter: options.filter,
         excludeDirs: options.excludeDirs,
+        map: map,
         resolve: resolve
       });
 

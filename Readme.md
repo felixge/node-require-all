@@ -41,7 +41,7 @@ var controllers = require('require-all')({
 
 ### Alternative property names
 
-If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function:
+If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function. The `map` function is called on both file and directory names, as they are added to the resulting object.
 
 ```js
 var controllers = require('require-all')({
