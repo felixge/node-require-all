@@ -41,7 +41,7 @@ var controllers = require('require-all')({
 
 ### Alternative property names
 
-If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function:
+If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function. You can also choose if you want the map function to be applied to sub directory names by setting the `mapSubDirectoryNames` value (defaults to true):
 
 ```js
 var controllers = require('require-all')({
@@ -52,6 +52,7 @@ var controllers = require('require-all')({
     return name.replace(/_([a-z])/g, function (m, c) {
       return c.toUpperCase();
     });
-  }
+  },
+  mapSubDirectoryNames: false
 });
 ```
