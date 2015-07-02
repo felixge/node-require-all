@@ -13,6 +13,8 @@ module.exports = function requireAll(options) {
   var modules = {};
   var resolve = options.resolve || identity;
   var map = options.map || identity;
+  var mapSubDirectoryNames = typeof options.mapSubDirectoryNames === "undefined" ?
+      true : options.mapSubDirectoryNames
 
   function excludeDirectory(dirname) {
     return options.excludeDirs && dirname.match(options.excludeDirs);
@@ -24,11 +26,16 @@ module.exports = function requireAll(options) {
 
       if (excludeDirectory(file)) return;
 
+      if (mapSubDirectoryNames){
+        file = map(file, filepath);
+      }
+
       modules[file] = requireAll({
         dirname: filepath,
         filter: options.filter,
         excludeDirs: options.excludeDirs,
-        resolve: resolve
+        resolve: resolve,
+        map: map
       });
 
     } else {
