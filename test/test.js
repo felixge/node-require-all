@@ -127,8 +127,7 @@ assert.deepEqual(controllersMap, {
 //
 if (semver.gt(process.version, 'v0.6.0')) {
   var mydir = requireAll({
-    dirname: __dirname + '/mydir',
-    filter: /(.+)\.(js|json)$/
+    dirname: __dirname + '/mydir'
   });
 
   var mydir_contents = {

@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-var DEFAULT_EXCLUDE_DIR = /^\.(git|svn)$/;
-var DEFAULT_FILTER = /(.+)\.js(on)?$/;
+var DEFAULT_EXCLUDE_DIR = /^\./;
+var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
 
 module.exports = function requireAll(options) {
   var dirname = typeof options === 'string' ? options : options.dirname;
