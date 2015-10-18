@@ -32,7 +32,6 @@ If your directory contains files that all export constructors, you can require t
 var controllers = require('require-all')({
   dirname     :  __dirname + '/controllers',
   filter      :  /(.+Controller)\.js$/,
-  excludeDirs :  /^\.(git|svn)$/,
   resolve     : function (Controller) {
     return new Controller();
   }
@@ -45,10 +44,9 @@ If your directory contains files where the names do not match what you want in t
 
 ```js
 var controllers = require('require-all')({
-  dirname     :  __dirname + '/controllers',
-  filter      :  /(.+Controller)\.js$/,
-  excludeDirs :  /^\.(git|svn)$/,
-  map         : function (name, path) {
+  dirname :  __dirname + '/controllers',
+  filter  :  /(.+Controller)\.js$/,
+  map     : function (name, path) {
     return name.replace(/_([a-z])/g, function (m, c) {
       return c.toUpperCase();
     });

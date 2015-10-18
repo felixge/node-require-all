@@ -155,7 +155,8 @@ if (semver.gt(process.version, 'v0.6.0')) {
 
 var unfiltered = requireAll({
   dirname: __dirname + '/filterdir',
-  filter: /(.+)\.js$/
+  filter: /(.+)\.js$/,
+  excludeDirs: false
 });
 
 assert(unfiltered['.svn']);

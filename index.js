@@ -1,39 +1,38 @@
 var fs = require('fs');
 
-module.exports = function requireAll(options) {
-  if (typeof options === 'string') {
-    options = {
-      dirname: options,
-      filter: /(.+)\.js(on)?$/,
-      excludeDirs: /^\.(git|svn)$/
-    };
-  }
+var DEFAULT_EXCLUDE_DIR = /^\.(git|svn)$/;
+var DEFAULT_FILTER = /(.+)\.js(on)?$/;
 
-  var files = fs.readdirSync(options.dirname);
+module.exports = function requireAll(options) {
+  var dirname = typeof options === 'string' ? options : options.dirname;
+  var excludeDirs = options.excludeDirs === undefined ? DEFAULT_EXCLUDE_DIR : options.excludeDirs;
+  var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
   var modules = {};
   var resolve = options.resolve || identity;
   var map = options.map || identity;
 
   function excludeDirectory(dirname) {
-    return options.excludeDirs && dirname.match(options.excludeDirs);
+    return excludeDirs && dirname.match(excludeDirs);
   }
 
+  var files = fs.readdirSync(dirname);
+
   files.forEach(function (file) {
-    var filepath = options.dirname + '/' + file;
+    var filepath = dirname + '/' + file;
     if (fs.statSync(filepath).isDirectory()) {
 
       if (excludeDirectory(file)) return;
 
       modules[map(file, filepath)] = requireAll({
         dirname: filepath,
-        filter: options.filter,
-        excludeDirs: options.excludeDirs,
+        filter: filter,
+        excludeDirs: excludeDirs,
         map: map,
         resolve: resolve
       });
 
     } else {
-      var match = file.match(options.filter);
+      var match = file.match(filter);
       if (!match) return;
 
       modules[map(match[1], filepath)] = resolve(require(filepath));
