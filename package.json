@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": "felixge/node-require-all",
   "devDependencies": {
-    "semver": "~2.1.0"
+    "semver": "4.3.2"
   },
   "files": [
     "LICENSE",
