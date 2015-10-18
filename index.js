@@ -2,17 +2,20 @@ var fs = require('fs');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
+var DEFAULT_RECURSIVE = true;
 
 module.exports = function requireAll(options) {
   var dirname = typeof options === 'string' ? options : options.dirname;
   var excludeDirs = options.excludeDirs === undefined ? DEFAULT_EXCLUDE_DIR : options.excludeDirs;
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
   var modules = {};
+  var recursive = options.recursive === undefined ? DEFAULT_RECURSIVE : options.recursive;
   var resolve = options.resolve || identity;
   var map = options.map || identity;
 
   function excludeDirectory(dirname) {
-    return excludeDirs && dirname.match(excludeDirs);
+    return !recursive ||
+      (excludeDirs && dirname.match(excludeDirs));
   }
 
   var files = fs.readdirSync(dirname);

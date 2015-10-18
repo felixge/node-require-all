@@ -28,6 +28,26 @@ assert.deepEqual(controllers, {
   }
 });
 
+var controllersTop = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: /(.+Controller)\.js$/,
+  recursive: false
+});
+
+assert.deepEqual(controllersTop, {
+  'main-Controller': {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  'other-Controller': {
+    index: 1,
+    show: 'nothing'
+  }
+});
+
 var controllersMap = requireAll({
   dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/,
