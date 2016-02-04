@@ -2,6 +2,9 @@
 
 An easy way to require all files within a directory.
 
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+
 ## Usage
 
 ```js
@@ -54,3 +57,8 @@ var controllers = require('require-all')({
   }
 });
 ```
+
+[npm-image]: https://img.shields.io/npm/v/require-all.svg
+[npm-url]: https://npmjs.org/package/require-all
+[downloads-image]: https://img.shields.io/npm/dm/require-all.svg
+[downloads-url]: https://npmjs.org/package/require-all
