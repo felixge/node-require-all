@@ -4,6 +4,7 @@ An easy way to require all files within a directory.
 
 [![NPM Version][npm-image]][npm-url]
 [![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
 
 ## Usage
 
@@ -62,3 +63,5 @@ var controllers = require('require-all')({
 [npm-url]: https://npmjs.org/package/require-all
 [downloads-image]: https://img.shields.io/npm/dm/require-all.svg
 [downloads-url]: https://npmjs.org/package/require-all
+[travis-image]: https://img.shields.io/travis/felixge/node-require-all/master.svg
+[travis-url]: https://travis-ci.org/felixge/node-require-all
