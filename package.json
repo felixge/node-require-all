@@ -13,6 +13,7 @@
     "semver": "4.3.2"
   },
   "files": [
+    "Changes.md",
     "LICENSE",
     "index.js",
     "Readme.md"
