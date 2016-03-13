@@ -212,3 +212,33 @@ var resolvedValues = requireAll({
 
 assert.equal(resolvedValues.onearg, 'arg1');
 assert.equal(resolvedValues.twoargs, 'arg2');
+
+var filterFunction = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: function (fileName) {
+    var parts = fileName.split('-');
+    if (parts[1] !== 'Controller.js') return;
+    return parts[0];
+  }
+});
+
+assert.deepEqual(filterFunction, {
+  'main': {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  'other': {
+    index: 1,
+    show: 'nothing'
+  },
+
+  'sub-dir': {
+    'other': {
+      index: 1,
+      show: 2
+    }
+  }
+});

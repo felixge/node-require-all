@@ -70,6 +70,19 @@ var controllers = require('require-all')({
 });
 ```
 
+For even more advanced usage, the `filter` option also accepts a function that is invoked with the file name as the first argument. The filter function is expected to return a falsy value to ignore the file, otherwise a string to use as the property name.
+
+```js
+var controllers = requireAll({
+  dirname : __dirname + '/controllers',
+  filter  : function (fileName) {
+    var parts = fileName.split('-');
+    if (parts[1] !== 'Controller.js') return;
+    return parts[0];
+  }
+});
+```
+
 [npm-image]: https://img.shields.io/npm/v/require-all.svg
 [npm-url]: https://npmjs.org/package/require-all
 [downloads-image]: https://img.shields.io/npm/dm/require-all.svg
