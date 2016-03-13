@@ -252,7 +252,7 @@ assert.deepEqual(filteredByFunctionControllers, {
     'notthis': {
         yes: 'no'
     },
-
+    
     'sub-dir': {
         'other-Controller': {
             index: 1,
