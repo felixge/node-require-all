@@ -10,7 +10,7 @@ module.exports = function requireAll(options) {
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
   var modules = {};
   var recursive = options.recursive === undefined ? DEFAULT_RECURSIVE : options.recursive;
-  var resolve = options.resolve || identity;
+  var resolve = options.resolve || defaultResolve;
   var map = options.map || identity;
 
   function excludeDirectory(dirname) {
@@ -47,4 +47,12 @@ module.exports = function requireAll(options) {
 
 function identity(val) {
   return val;
+}
+
+function defaultResolve(val) {
+  if (val.__esModule) {
+    return val.default;
+  } else {
+    return val;
+  }
 }
