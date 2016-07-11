@@ -205,10 +205,11 @@ assert.equal(excludedSvnAndSub.sub, undefined);
 var resolvedValues = requireAll({
   dirname: __dirname + '/resolved',
   filter: /(.+)\.js$/,
-  resolve: function (fn) {
-    return fn('arg1', 'arg2');
+  resolve: function (fn, name) {
+    return fn('arg1', 'arg2', name);
   }
 });
 
 assert.equal(resolvedValues.onearg, 'arg1');
 assert.equal(resolvedValues.twoargs, 'arg2');
+assert.equal(resolvedValues.threeargs, 'threeargs');
