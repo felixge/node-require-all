@@ -38,7 +38,7 @@ module.exports = function requireAll(options) {
       var match = file.match(filter);
       if (!match) return;
 
-      modules[map(match[1], filepath)] = resolve(require(filepath));
+      modules[map(match[1], filepath)] = resolve(require(filepath), match[1]);
     }
   });
 
