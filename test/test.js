@@ -238,8 +238,11 @@ assert.deepEqual(filteredbyArrayControllers, {
 
 var filteredByFunctionControllers = requireAll({
   dirname: __dirname + '/controllers',
-  filter: function () {
-    return /main/.test(arguments[0]);
+  filter: function (fileName) {
+    if (fileName.indexOf('main') === -1) {
+      return fileName.replace(".js", "");
+    }
+    return;
   }
 });
 

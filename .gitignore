@@ -1,4 +1,2 @@
 *.un~
 node_modules/
-.vscode/
-.editorconfig

@@ -42,9 +42,8 @@ module.exports = function requireAll(options) {
       } else {
         var match = typeof filter === 'function' ? FunctionFilterHandler(file, filter) :
           Array.isArray(filter) ? ArrayFilterHandler(file, filter) : defaultError();
-        if (match) return;
-        var fileName = file.replace(/\.[^/.]+$/, "");
-        modules[map(fileName, filepath)] = resolve(require(filepath))
+        if (!match) return;
+        modules[map(match, filepath)] = resolve(require(filepath))
       }
     }
   });
@@ -61,8 +60,12 @@ function FunctionFilterHandler(file, filter) {
 }
 
 function ArrayFilterHandler(file, filter) {
-  if (filter.indexOf(file) !== -1) return true;
-  return false;
+  if (filter.indexOf(file) === -1) {
+     var match = file.match(/^(\S+)(\.\S+)/i);
+     if(match) return match[1];
+  }
+
+  return;
 }
 
 function defaultError() {
