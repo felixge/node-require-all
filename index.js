@@ -38,7 +38,15 @@ module.exports = function requireAll(options) {
       var match = file.match(filter);
       if (!match) return;
 
-      modules[map(match[1], filepath)] = resolve(require(filepath));
+      // Create an info object to pass to the resolve function
+      var module = {
+        name: map(match[1], filepath),
+        dir: dirname,
+        file: file,
+        path: filepath
+      };
+
+      modules[module.name] = resolve(require(module.path), module);
     }
   });
 
