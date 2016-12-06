@@ -39,14 +39,14 @@ module.exports = function requireAll(options) {
       if (!match) return;
 
       // Create an info object to pass to the resolve function
-      var module = {
+      var moduleInfo = {
         name: map(match[1], filepath),
         dir: dirname,
         file: file,
         path: filepath
       };
 
-      modules[module.name] = resolve(require(module.path), module);
+      modules[moduleInfo.name] = resolve(require(filepath), moduleInfo);
     }
   });
 
