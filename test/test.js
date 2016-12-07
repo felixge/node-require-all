@@ -235,6 +235,6 @@ var resolvedValues = requireAll({
 assert.equal(resolvedValues.ONEARG, 'arg1');
 assert.equal(resolvedValues.TWOARGS, 'arg2');
 assert.equal(moduleInfos[0].name, 'ONEARG');
-assert(moduleInfos[0].path, 'path undefined');
+assert.equal(moduleInfos[0].path, __dirname + '/' + 'resolved/onearg.js');
 assert.equal(moduleInfos[1].name, 'TWOARGS');
-assert(moduleInfos[1].path, 'path undefined');
+assert.equal(moduleInfos[1].path, __dirname + '/' + 'resolved/twoargs.js');
