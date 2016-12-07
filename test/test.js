@@ -7,7 +7,7 @@ var requireAll = require('..');
  * Recursively load .js files from the `controller` folder that end with `Controller`
  **/
 var controllers = requireAll({
-  dirname: 'controllers',
+  dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/
 });
 
@@ -37,7 +37,7 @@ assert.deepEqual(controllers, {
  * Non-recursively load .js files from the `controller` folder that end with `Controller`
  **/
 var controllersTop = requireAll({
-  dirname: 'controllers',
+  dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/,
   recursive: false
 });
@@ -62,7 +62,7 @@ assert.deepEqual(controllersTop, {
  * Replace `-C` for `_c` in the property name using the map option
  **/
 var controllersMap = requireAll({
-  dirname: 'controllers',
+  dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/,
   map: function (name) {
     return name.replace(/-([A-Z])/, function (m, c) {
@@ -98,7 +98,7 @@ assert.deepEqual(controllersMap, {
  * Replace `-C` for `_c` in the property name using the map option
  **/
 controllersMap = requireAll({
-  dirname: 'controllers',
+  dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/,
   map: function (name) {
     return name.replace(/-([A-Za-z])/, function (m, c) {
@@ -135,7 +135,7 @@ assert.deepEqual(controllersMap, {
  **/
 if(semver.gt(process.version, 'v0.6.0')) {
   var mydir = requireAll({
-    dirname: 'mydir'
+    dirname: __dirname + '/mydir'
   });
 
   var mydir_contents = {
@@ -165,7 +165,7 @@ if(semver.gt(process.version, 'v0.6.0')) {
  * Exclude dirs false
  **/
 var unfiltered = requireAll({
-  dirname: 'filterdir',
+  dirname: __dirname + '/filterdir',
   filter: /(.+)\.js$/,
   excludeDirs: false
 });
@@ -179,7 +179,7 @@ assert(unfiltered.sub);
  * Exclude .svn dirs
  **/
 var excludedSvn = requireAll({
-  dirname: 'filterdir',
+  dirname: __dirname + '/filterdir',
   filter: /(.+)\.js$/,
   excludeDirs: /^\.svn$/
 });
@@ -193,7 +193,7 @@ assert.ok(excludedSvn.sub);
  * Exclude .svn and sub dirs
  **/
 var excludedSvnAndSub = requireAll({
-  dirname: 'filterdir',
+  dirname: __dirname + '/filterdir',
   filter: /(.+)\.js$/,
   excludeDirs: /^(\.svn|sub)$/
 });
@@ -207,7 +207,7 @@ assert.equal(excludedSvnAndSub.sub, undefined);
  * Resolve test
  **/
 var resolvedValues = requireAll({
-  dirname: 'resolved',
+  dirname: __dirname + '/resolved',
   filter: /(.+)\.js$/,
   resolve: function(fn) {
     return fn('arg1', 'arg2');
@@ -223,7 +223,7 @@ assert.equal(resolvedValues.twoargs, 'arg2');
  **/
 var moduleInfos = [];
 var resolvedValues = requireAll({
-  dirname: 'resolved',
+  dirname: __dirname + '/resolved',
   filter: /(.+)\.js$/,
   map: function (name) {
     return name.replace(/([A-Za-z]+)/, function (m, c) {
@@ -248,10 +248,10 @@ assert.equal(moduleInfos[1].path, __dirname + '/' + 'resolved/twoargs.js');
 
 /**
  * TEST #11
- * Backwards compatibility test with absolute paths as dirname
+ * Relative dirname
  **/
 var unfiltered = requireAll({
-  dirname: __dirname + '/filterdir',
+  dirname: 'filterdir',
   filter: /(.+)\.js$/,
 });
 

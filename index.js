@@ -40,9 +40,9 @@ module.exports = function requireAll(options) {
       var match = file.match(filter);
       if(!match) return;
 
-      var name = map(match[1], filepath);
+      var name = map(match[1], filePath);
 
-      modules[name] = resolve(require(filepath), name, filepath);
+      modules[name] = resolve(require(filePath), name, filePath);
     }
   });
 
