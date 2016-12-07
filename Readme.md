@@ -37,21 +37,11 @@ If your directory contains files that all export constructors, you can require t
 var controllers = require('require-all')({
   dirname     :  __dirname + '/controllers',
   filter      :  /(.+Controller)\.js$/,
-  resolve     : function (Controller, moduleInfo) {
-    console.log('Constructor of `%s` from `%s` executed', moduleInfo.name, moduleInfo.path);
+  resolve     : function (Controller, name, path) {
+    console.log('Constructor of `%s` from `%s` executed', name, path);
     return new Controller();
   }
 });
-
-// moduleInfo parameter is an object containing info about the required module:
-name  The name converted by the map function
-dir   Directory of the file
-file  Filename
-path  Full path to file
-{ name: 'TestController',
-  dir: '/path-to-folder/',
-  file: 'onearg.js',
-  path: '/path-to-folder/TestController.js' }
 ```
 
 ### Alternative property names

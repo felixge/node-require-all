@@ -213,7 +213,7 @@ var resolvedValues = requireAll({
 assert.equal(resolvedValues.onearg, 'arg1');
 assert.equal(resolvedValues.twoargs, 'arg2');
 
-// Module info test, tests that the name is converted by the map function
+// Tests that the name is converted by the map function and path is defined
 var moduleInfos = [];
 var resolvedValues = requireAll({
   dirname: __dirname + '/resolved',
@@ -223,8 +223,11 @@ var resolvedValues = requireAll({
       return c.toUpperCase();
     });
   },
-  resolve: function (fn, moduleInfo) {
-    moduleInfos.push(moduleInfo);
+  resolve: function (fn, name, path) {
+    moduleInfos.push({
+      name: name,
+      path: path
+    });
     return fn('arg1', 'arg2');
   }
 });
@@ -232,10 +235,6 @@ var resolvedValues = requireAll({
 assert.equal(resolvedValues.ONEARG, 'arg1');
 assert.equal(resolvedValues.TWOARGS, 'arg2');
 assert.equal(moduleInfos[0].name, 'ONEARG');
-assert(moduleInfos[0].dir, 'moduleInfo.filepath undefined');
-assert.equal(moduleInfos[0].file, 'onearg.js');
-assert(moduleInfos[0].path, 'moduleInfo.filepath undefined');
+assert(moduleInfos[0].path, 'path undefined');
 assert.equal(moduleInfos[1].name, 'TWOARGS');
-assert(moduleInfos[1].dir, 'moduleInfo.filepath undefined');
-assert.equal(moduleInfos[1].file, 'twoargs.js');
-assert(moduleInfos[1].path, 'moduleInfo.filepath undefined');
+assert(moduleInfos[1].path, 'path undefined');
