@@ -17,7 +17,7 @@ function getCaller() {
   Error.prepareStackTrace = origPrepareStackTrace // Restore original function
   
   return stack[2].getFileName();
-}
+} 
 
 module.exports = function requireAll(options) {
   var parentDir = path.dirname(getCaller());
