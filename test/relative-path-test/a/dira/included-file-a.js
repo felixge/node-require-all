@@ -1,0 +1,1 @@
+console.log('dira/included-file-a.js');

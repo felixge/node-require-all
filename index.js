@@ -1,12 +1,27 @@
-var fs = require('fs'), path = require('path');
-
-var parentDir = path.dirname(module.parent.filename); // Directory of the module from which requireAll is called from
+var fs = require('fs'), path = require('path'); // Directory of the module from which requireAll is called from
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
 var DEFAULT_RECURSIVE = true;
 
+/**
+ * Gets the path of the file the requireAll function was called from
+ * This is used to make relative paths work
+ */
+function getCaller() {
+  var origPrepareStackTrace = Error.prepareStackTrace
+
+  Error.prepareStackTrace = function(_, stack) { return stack }
+
+  var stack = new Error().stack; // Get stack and remove this
+  Error.prepareStackTrace = origPrepareStackTrace // Restore original function
+  
+  return stack[2].getFileName();
+}
+
 module.exports = function requireAll(options) {
+  var parentDir = path.dirname(getCaller());
+  
   var dirname = typeof options === 'string' ? options : options.dirname;
   var excludeDirs = options.excludeDirs === undefined ? DEFAULT_EXCLUDE_DIR : options.excludeDirs;
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;

@@ -1,0 +1,1 @@
+var a = require('./a/a.js'), b = require('./b/b.js');

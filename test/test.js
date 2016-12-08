@@ -256,3 +256,9 @@ var unfiltered = requireAll({
 });
 
 assert(unfiltered, 'Absolute path backwards compatibility not working');
+
+/**
+ * TEST #12
+ * Test relative path
+ **/
+require('./relative-path-test/ab.js');
