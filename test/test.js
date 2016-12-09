@@ -136,7 +136,7 @@ if(semver.gt(process.version, 'v0.6.0')) { // only became an option in 0.6+
 
   assert.deepEqual(mydir, mydir_contents);
 
-  var defaults = requireAll('mydir');
+  var defaults = requireAll(__dirname + '/mydir');
 
   assert.deepEqual(defaults, mydir_contents);
 }

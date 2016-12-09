@@ -1,4 +1,4 @@
-var fs = require('fs'), path = require('path'); // Directory of the module from which requireAll is called from
+var fs = require('fs'), path = require('path');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
@@ -34,23 +34,16 @@ module.exports = function requireAll(options) {
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
   var modules = {};
   var recursive = options.recursive === undefined ? DEFAULT_RECURSIVE : options.recursive;
-
   var resolve = options.resolve || function(a) {return a};
   var map = options.map || function(a) {return a};
 
   var callerDir = path.dirname(getCaller());
-  
-  //console.log('\nCalled from file: %s with dirname: %s', getCaller(), dirname);
 
   function excludeDirectory(dirname) {
     return !recursive || (excludeDirs && dirname.match(excludeDirs));
   }
 
   var dirPath = isPathAbsolute(dirname) ? dirname : callerDir + '/' + dirname;
-  if(!isPathAbsolute(dirname)) {
-    //console.log('Path not absolute, prepending %s/', callerDir);
-  }
-  //console.log('Reading dir: %s', dirPath);
 
   var files = fs.readdirSync(dirPath);
   files.forEach(function(file) {
