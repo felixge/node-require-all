@@ -1,1 +1,1 @@
-console.log('Required: dira/included-file-a.js');
+console.log('Required: dira/included-file-b.js');

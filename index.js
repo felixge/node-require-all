@@ -7,36 +7,51 @@ var DEFAULT_RECURSIVE = true;
 /**
  * Gets the path of the file the requireAll function was called from
  * This is used to make relative paths work
+ * @return {string} Path of the file
  */
 function getCaller() {
   var origPrepareStackTrace = Error.prepareStackTrace
 
   Error.prepareStackTrace = function(_, stack) { return stack }
 
-  var stack = new Error().stack; // Get stack and remove this
+  var stack = new Error().stack;
   Error.prepareStackTrace = origPrepareStackTrace // Restore original function
   
   return stack[2].getFileName();
-} 
+}
+
+/**
+ * Checks if the given path is absolute or not
+ **/
+function isPathAbsolute(path) {
+  return /^(?:\/|[a-z]+:\/\/)/.test(path);
+}
 
 module.exports = function requireAll(options) {
-  var parentDir = path.dirname(getCaller());
-  
+  // Initialize options
   var dirname = typeof options === 'string' ? options : options.dirname;
   var excludeDirs = options.excludeDirs === undefined ? DEFAULT_EXCLUDE_DIR : options.excludeDirs;
   var filter = options.filter === undefined ? DEFAULT_FILTER : options.filter;
   var modules = {};
   var recursive = options.recursive === undefined ? DEFAULT_RECURSIVE : options.recursive;
-  var resolve = options.resolve || identity;
-  var map = options.map || identity;
+
+  var resolve = options.resolve || function(a) {return a};
+  var map = options.map || function(a) {return a};
+
+  var callerDir = path.dirname(getCaller());
+  
+  //console.log('\nCalled from file: %s with dirname: %s', getCaller(), dirname);
 
   function excludeDirectory(dirname) {
     return !recursive || (excludeDirs && dirname.match(excludeDirs));
   }
-  
-  var dirPath = dirname;
-  if(!path.isAbsolute(dirname)) dirPath = parentDir + '/' + dirname;
-  
+
+  var dirPath = isPathAbsolute(dirname) ? dirname : callerDir + '/' + dirname;
+  if(!isPathAbsolute(dirname)) {
+    //console.log('Path not absolute, prepending %s/', callerDir);
+  }
+  //console.log('Reading dir: %s', dirPath);
+
   var files = fs.readdirSync(dirPath);
   files.forEach(function(file) {
     var filePath = dirPath + '/' + file;
@@ -63,7 +78,3 @@ module.exports = function requireAll(options) {
 
   return modules;
 };
-
-function identity(val) {
-  return val;
-}
