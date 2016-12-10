@@ -1,4 +1,4 @@
-var fs = require('fs'), Path = require('path');
+var fs = require('fs'), path = require('path');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
@@ -23,8 +23,8 @@ function getCaller() {
  * Checks if the given path is absolute or not
  * @return {boolean} true if path is absolute, otherwise false
  **/
-function isAbsolutePath(path) {
-  return Path.resolve(path) == Path.normalize(path);
+function isAbsolutePath(p) {
+  return path.resolve(p) == path.normalize(p);
 }
 
 module.exports = function requireAll(options) {
@@ -37,7 +37,7 @@ module.exports = function requireAll(options) {
   var resolve = options.resolve || function(a) {return a};
   var map = options.map || function(a) {return a};
 
-  var callerDir = Path.dirname(getCaller());
+  var callerDir = path.dirname(getCaller());
 
   var dirPath = isAbsolutePath(dirname) ? dirname : callerDir + '/' + dirname;
 
@@ -46,7 +46,7 @@ module.exports = function requireAll(options) {
     var filePath = dirPath + '/' + file;
 
     if(fs.statSync(filePath).isDirectory()) {
-      if(!recursive || (excludeDirs && dirname.match(file))) return false;
+      if(!recursive || (excludeDirs && file.match(excludeDirs))) return;
 
       modules[map(file, filePath)] = requireAll({
         dirname: filePath,
