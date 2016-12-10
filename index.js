@@ -1,4 +1,4 @@
-var fs = require('fs'), path = require('path');
+var fs = require('fs'), Path = require('path');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
@@ -6,7 +6,6 @@ var DEFAULT_RECURSIVE = true;
 
 /**
  * Gets the path of the file the requireAll function was called from
- * This is used to make relative paths work
  * @return {string} Path of the file
  */
 function getCaller() {
@@ -22,9 +21,10 @@ function getCaller() {
 
 /**
  * Checks if the given path is absolute or not
+ * @return {boolean} true if path is absolute, otherwise false
  **/
-function isPathAbsolute(path) {
-  return /^(?:\/|[a-z]+:\/\/)/.test(path);
+function isAbsolutePath(path) {
+  return Path.resolve(path) == Path.normalize(path);
 }
 
 module.exports = function requireAll(options) {
@@ -37,20 +37,16 @@ module.exports = function requireAll(options) {
   var resolve = options.resolve || function(a) {return a};
   var map = options.map || function(a) {return a};
 
-  var callerDir = path.dirname(getCaller());
+  var callerDir = Path.dirname(getCaller());
 
-  function excludeDirectory(dirname) {
-    return !recursive || (excludeDirs && dirname.match(excludeDirs));
-  }
-
-  var dirPath = isPathAbsolute(dirname) ? dirname : callerDir + '/' + dirname;
+  var dirPath = isAbsolutePath(dirname) ? dirname : callerDir + '/' + dirname;
 
   var files = fs.readdirSync(dirPath);
   files.forEach(function(file) {
     var filePath = dirPath + '/' + file;
 
     if(fs.statSync(filePath).isDirectory()) {
-      if(excludeDirectory(file)) return;
+      if(!recursive || (excludeDirs && dirname.match(file))) return false;
 
       modules[map(file, filePath)] = requireAll({
         dirname: filePath,
