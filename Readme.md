@@ -59,6 +59,17 @@ var controllers = require('require-all')({
 });
 ```
 
+### Filtering files
+
+If your directory contains files that you do not want to require, or that you want only a part of the file's name to be used as the property name, `filter` can be a regular expression. In the following example, the `filter` is set to `/^(.+Controller)\.js$/`, which means only files that end in "Conroller.js" are required, and the resulting property name will be the name of the file without the ".js" extension. For example, the file "MainController.js" will match, and since the first capture group will contain "MainController", that will be the property name used.
+
+```js
+var controllers = require('require-all')({
+  dirname : __dirname + '/controllers',
+  filter  : /^(.+Controller)\.js$/
+});
+```
+
 [npm-image]: https://img.shields.io/npm/v/require-all.svg
 [npm-url]: https://npmjs.org/package/require-all
 [downloads-image]: https://img.shields.io/npm/dm/require-all.svg
