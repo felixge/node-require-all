@@ -73,7 +73,8 @@ can be a regular expression. In the following example, the `filter` is set to
 are required, and the resulting property name will be the name of the file
 without the ".js" extension. For example, the file "MainController.js" will
 match, and since the first capture group will contain "MainController", that
-will be the property name used.
+will be the property name used. If no capture group is used, then the entire
+match will be used as the name.
 
 ```js
 var controllers = require('require-all')({
