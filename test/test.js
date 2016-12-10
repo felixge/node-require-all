@@ -243,7 +243,8 @@ assert.deepEqual(filterFunction, {
   }
 });
 
-// Tests that the name is converted by the map function and path is defined
+// Tests that the absolute file path is + propertyname converted by the map
+// function are passed to the resolve function
 var moduleInfos = [];
 var resolvedValues = requireAll({
   dirname: __dirname + '/resolved',
@@ -253,10 +254,10 @@ var resolvedValues = requireAll({
       return c.toUpperCase();
     });
   },
-  resolve: function (fn, name, path) {
+  resolve: function (fn, name, filepath) {
     moduleInfos.push({
       name: name,
-      path: path
+      path: filepath
     });
     return fn('arg1', 'arg2');
   }
