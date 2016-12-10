@@ -35,10 +35,16 @@ module.exports = function requireAll(options) {
       });
 
     } else {
-      var match = file.match(filter);
-      if (!match) return;
-
-      modules[map(match[1], filepath)] = resolve(require(filepath));
+      if (toString.call(filter) === "[object RegExp]") {
+        var match = file.match(filter);
+        if (!match) return;
+        modules[map(match[1], filepath)] = resolve(require(filepath));
+      } else {
+        var match = typeof filter === 'function' ? FunctionFilterHandler(file, filter) :
+          Array.isArray(filter) ? ArrayFilterHandler(file, filter) : defaultError();
+        if (!match) return;
+        modules[map(match, filepath)] = resolve(require(filepath))
+      }
     }
   });
 
@@ -47,4 +53,21 @@ module.exports = function requireAll(options) {
 
 function identity(val) {
   return val;
+}
+
+function FunctionFilterHandler(file, filter) {
+  return filter(file);
+}
+
+function ArrayFilterHandler(file, filter) {
+  if (filter.indexOf(file) === -1) {
+     var match = file.match(/^(\S+)(\.\S+)/i);
+     if(match) return match[1];
+  }
+
+  return;
+}
+
+function defaultError() {
+  throw new TypeError('Supplied filter not a valid Function or Array type.');
 }

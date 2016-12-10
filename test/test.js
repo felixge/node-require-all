@@ -212,3 +212,54 @@ var resolvedValues = requireAll({
 
 assert.equal(resolvedValues.onearg, 'arg1');
 assert.equal(resolvedValues.twoargs, 'arg2');
+
+//
+//filter out by callback function or array list.
+//
+var filteredbyArrayControllers = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: ['other-Controller.js']
+});
+
+assert.deepEqual(filteredbyArrayControllers, {
+  'main-Controller': {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
+
+  'notthis': {
+    yes: 'no'
+  },
+
+  'sub-dir': {}
+});
+
+var filteredByFunctionControllers = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: function (fileName) {
+    if (fileName.indexOf('main') === -1) {
+      return fileName.replace(".js", "");
+    }
+    return;
+  }
+});
+
+assert.deepEqual(filteredByFunctionControllers, {
+  'other-Controller': {
+    index: 1,
+    show: 'nothing'
+  },
+
+  'notthis': {
+    yes: 'no'
+  },
+
+  'sub-dir': {
+    'other-Controller': {
+      index: 1,
+      show: 2
+    }
+  }
+});
