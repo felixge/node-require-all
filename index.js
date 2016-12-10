@@ -41,10 +41,20 @@ module.exports = function requireAll(options) {
   var resolve = options.resolve || function(a) {return a};
   var map = options.map || function(a) {return a};
 
+  function filterFile(filename) {
+    if (typeof filter === 'function') {
+      return filter(filename);
+    }
+
+    var match = filename.match(filter);
+    if (!match) return;
+
+    return match[1];
+  }
+  
   var callerDir = path.dirname(getCaller());
-
   var dirPath = isAbsolutePath(dirname) ? dirname : callerDir + '/' + dirname;
-
+  
   var files = fs.readdirSync(dirPath);
   files.forEach(function(file) {
     var filePath = dirPath + '/' + file;
@@ -60,10 +70,10 @@ module.exports = function requireAll(options) {
         resolve: resolve
       });
     } else {
-      var match = file.match(filter);
-      if(!match) return;
-
-      var name = map(match[1], filePath);
+      var name = filterFile(file);
+      if (!name) return;
+      
+      name = map(name, filePath);
 
       modules[name] = resolve(require(filePath), name, filePath);
     }

@@ -37,8 +37,9 @@ If your directory contains files that all export constructors, you can require t
 var controllers = require('require-all')({
   dirname     : 'controllers',
   filter      : /(.+Controller)\.js$/,
-  resolve     : function (Controller, name, path) {
-    console.log('Constructor of `%s` from `%s` executed', name, path);
+  resolve     : function (Controller, name, filepath) {
+    console.log('Constructor of `%s` from `%s` executed', name, filepath);
+
     return new Controller();
   }
 });
@@ -56,6 +57,30 @@ var controllers = require('require-all')({
     return name.replace(/_([a-z])/g, function (m, c) {
       return c.toUpperCase();
     });
+  }
+});
+```
+
+### Filtering files
+
+If your directory contains files that you do not want to require, or that you want only a part of the file's name to be used as the property name, `filter` can be a regular expression. In the following example, the `filter` is set to `/^(.+Controller)\.js$/`, which means only files that end in "Conroller.js" are required, and the resulting property name will be the name of the file without the ".js" extension. For example, the file "MainController.js" will match, and since the first capture group will contain "MainController", that will be the property name used.
+
+```js
+var controllers = require('require-all')({
+  dirname : __dirname + '/controllers',
+  filter  : /^(.+Controller)\.js$/
+});
+```
+
+For even more advanced usage, the `filter` option also accepts a function that is invoked with the file name as the first argument. The filter function is expected to return a falsy value to ignore the file, otherwise a string to use as the property name.
+
+```js
+var controllers = requireAll({
+  dirname : __dirname + '/controllers',
+  filter  : function (fileName) {
+    var parts = fileName.split('-');
+    if (parts[1] !== 'Controller.js') return;
+    return parts[0];
   }
 });
 ```

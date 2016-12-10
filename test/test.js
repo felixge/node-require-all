@@ -186,8 +186,39 @@ var resolvedValues = requireAll({
 assert.equal(resolvedValues.onearg, 'arg1');
 assert.equal(resolvedValues.twoargs, 'arg2');
 
+console.log('\nTEST #10:\tdirname: __dirname + `/controllers`\tfilter: function: -Controller.js only');
+var filterFunction = requireAll({
+  dirname: __dirname + '/controllers',
+  filter: function (fileName) {
+    var parts = fileName.split('-');
+    if (parts[1] !== 'Controller.js') return;
+    return parts[0];
+  }
+});
+assert.deepEqual(filterFunction, {
+  'main': {
+    index: 1,
+    show: 2,
+    add: 3,
+    edit: 4
+  },
 
-console.log('\nTEST #10:\tdirname: __dirname + `/resolved`\tfilter: /(.+)\\.js$/\tmap: toUpperCase\tresolve: function(fn) {return fn(\'arg1\', \'arg2\');}');
+  'other': {
+    index: 1,
+    show: 'nothing'
+  },
+
+  'sub-dir': {
+    'other': {
+      index: 1,
+      show: 2
+    }
+  }
+});
+
+// Tests that the absolute file path is + propertyname converted by the map
+// function are passed to the resolve function
+console.log('\nTEST #11:\tdirname: __dirname + `/resolved`\tfilter: /(.+)\\.js$/\tmap: toUpperCase\tresolve: function(fn) {return fn(\'arg1\', \'arg2\');}');
 var moduleInfos = [];
 var resolvedValues = requireAll({
   dirname: __dirname + '/resolved',
@@ -197,10 +228,10 @@ var resolvedValues = requireAll({
       return c.toUpperCase();
     });
   },
-  resolve: function(fn, name, path) {
+  resolve: function (fn, name, filepath) {
     moduleInfos.push({
       name: name,
-      path: path
+      path: filepath
     });
     return fn('arg1', 'arg2');
   }
@@ -213,7 +244,7 @@ assert.equal(moduleInfos[1].name, 'TWOARGS');
 assert.equal(moduleInfos[1].path, __dirname + '/' + 'resolved/twoargs.js');
 
 
-console.log('\nTEST #11:\tdirname: `controllers`\t\t\tfilter: `/(.+Controller)\\.js$/');
+console.log('\nTEST #12:\tdirname: `controllers`\t\t\tfilter: `/(.+Controller)\\.js$/');
 var controllers = requireAll({
   dirname: 'controllers',
   filter: /(.+Controller)\.js$/
@@ -240,7 +271,7 @@ assert.deepEqual(controllers, {
 });
 
 
-console.log('\nTEST #12:\tdirname: `./controllers`\t\tfilter: `/(.+Controller)\\.js$/');
+console.log('\nTEST #13:\tdirname: `./controllers`\t\tfilter: `/(.+Controller)\\.js$/');
 var controllers = requireAll({
   dirname: './controllers',
   filter: /(.+Controller)\.js$/
@@ -267,5 +298,5 @@ assert.deepEqual(controllers, {
 });
 
 
-console.log('\nTEST #13:\tModule caching issue workaround test'); // Module caching issue: https://github.com/felixge/node-require-all/pull/41#issuecomment-265566058
+console.log('\nTEST #14:\tModule caching issue workaround test'); // Module caching issue: https://github.com/felixge/node-require-all/pull/41#issuecomment-265566058
 require('./relative-path-test/ab.js');
