@@ -10,12 +10,16 @@ var DEFAULT_RECURSIVE = true;
  */
 function getCaller() {
   var origPrepareStackTrace = Error.prepareStackTrace
-
+  var origStackTraceLimit = Error.stackTraceLimit;
+  
+  Error.stackTraceLimit = Infinity;
   Error.prepareStackTrace = function(_, stack) { return stack }
 
   var stack = new Error().stack;
-  Error.prepareStackTrace = origPrepareStackTrace // Restore original function
   
+  Error.prepareStackTrace = origPrepareStackTrace // Restore original function
+  Error.stackTraceLimit = origStackTraceLimit;
+
   return stack[2].getFileName();
 }
 
