@@ -1,10 +1,11 @@
 {
   "name": "require-all",
   "description": "An easy way to require all files within a directory.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Prince Obiechine Onyenike <leewaygroups@gmail.com>",
     "Nuno Job <nunojobpinto@gmail.com> (http://nunojob.com)"
   ],
   "license": "MIT",

@@ -4,8 +4,11 @@ This file is a manually maintained list of changes for each release. Feel free
 to add your changes here when sending pull requests. Also send corrections if
 you spot any mistakes.
 
-## Unreleased
-* Added name and path to resolve function
+## HEAD
+* Pass name and path to resolve function
+
+## v2.1.0 (2016-12-09)
+* Accept a function for "filter" option #27 #31
 
 ## v2.0.0 (2015-10-17)
 

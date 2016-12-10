@@ -18,6 +18,17 @@ module.exports = function requireAll(options) {
       (excludeDirs && dirname.match(excludeDirs));
   }
 
+  function filterFile(filename) {
+    if (typeof filter === 'function') {
+      return filter(filename);
+    }
+
+    var match = filename.match(filter);
+    if (!match) return;
+
+    return match[1];
+  }
+
   var files = fs.readdirSync(dirname);
 
   files.forEach(function (file) {
@@ -35,10 +46,10 @@ module.exports = function requireAll(options) {
       });
 
     } else {
-      var match = file.match(filter);
-      if (!match) return;
-
-      var name = map(match[1], filepath);
+      var name = filterFile(file);
+      if (!name) return;
+      
+      name = map(name, filepath);
 
       modules[name] = resolve(require(filepath), name, filepath);
     }
