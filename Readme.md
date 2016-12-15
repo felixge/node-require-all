@@ -83,6 +83,23 @@ var controllers = requireAll({
 });
 ```
 
+### loader require
+
+If your directory contains non-require-able files, you can loader the `require` function in order to create a custom map. E.g. load pictures into binary data or `yaml` files into objects.
+
+```js
+var fs = require('fs');
+var yaml = require('js-yaml');
+var config = require('require-all')({
+  dirname     :  __dirname + '/config',
+  filter      : /^([^\.].*)\.ya?ml$/,
+  recursive   : true,
+  loader      : function (file) {
+    return yaml.safeLoad(fs.readFileSync(file, 'utf8'));
+  }
+});
+```
+
 [npm-image]: https://img.shields.io/npm/v/require-all.svg
 [npm-url]: https://npmjs.org/package/require-all
 [downloads-image]: https://img.shields.io/npm/dm/require-all.svg

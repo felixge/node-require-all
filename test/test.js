@@ -1,5 +1,6 @@
 var assert = require('assert');
 var semver = require('semver');
+var fs = require('fs');
 var requireAll = require('..');
 
 var controllers = requireAll({
@@ -240,5 +241,22 @@ assert.deepEqual(filterFunction, {
       index: 1,
       show: 2
     }
+  }
+});
+
+var loaderFunction = requireAll({
+  dirname     :  __dirname + '/loader',
+  filter      : /^([^\.].*)\.txt$/,
+  recursive   : true,
+  loader      : function (file) {
+    return fs.readFileSync(file, 'utf8');
+  }
+});
+
+assert.deepEqual(loaderFunction, {
+  test: 'Hello\n',
+
+  sub: {
+    deep: 'Good Sir\n'
   }
 });
