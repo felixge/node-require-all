@@ -193,6 +193,7 @@ if (semver.gt(process.version, 'v0.6.0')) {
   var defaults = requireAll(__dirname + '/mydir');
 
   assert.deepEqual(defaults, mydir_contents);
+
 }
 
 var unfiltered = requireAll({
@@ -265,3 +266,21 @@ assert.deepEqual(filterFunction, {
     }
   }
 });
+
+var merge = requireAll({
+  dirname: __dirname + '/merge',
+  merge: true
+});
+
+var merge_contents =  {
+  afunction: merge.afunction,
+  anarray: [ 1, 2, 3, 4 ],
+  astring: 'justastring',
+  state: 'Kentucky',
+  world: true,
+  universe: 42,
+  first: { second: { third: { third1: 'deep', third2: 'merge' } } },
+  sub: { system: 'Sol', country: 'France' } }
+
+assert.deepEqual(merge, merge_contents);
+assert.equal(merge.afunction.toString(),merge_contents.afunction.toString())
