@@ -267,6 +267,8 @@ assert.deepEqual(filterFunction, {
   }
 });
 
+if (semver.gt(process.version, 'v0.8.0')) {
+
 var merge = requireAll({
   dirname: __dirname + '/merge',
   merge: true
@@ -284,3 +286,5 @@ var merge_contents =  {
 
 assert.deepEqual(merge, merge_contents);
 assert.equal(merge.afunction.toString(),merge_contents.afunction.toString())
+
+}
