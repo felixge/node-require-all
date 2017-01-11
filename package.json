@@ -11,7 +11,6 @@
   "license": "MIT",
   "repository": "felixge/node-require-all",
   "devDependencies": {
-    "assert": "^1.4.1",
     "semver": "4.3.2"
   },
   "files": [
@@ -24,6 +23,6 @@
     "node": "*"
   },
   "scripts": {
-    "test": "node test/test.js || true"
+    "test": "node test/test.js"
   }
 }

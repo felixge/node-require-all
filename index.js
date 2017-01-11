@@ -2,8 +2,8 @@ var fs = require('fs');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
 var DEFAULT_FILTER = /^([^\.].*)\.js(on)?$/;
-var DEFAULT_RECURSIVE = true;
 var DEFAULT_MERGE = false;
+var DEFAULT_RECURSIVE = true;
 
 module.exports = function requireAll(options) {
   var dirname = typeof options === 'string' ? options : options.dirname;
@@ -44,8 +44,8 @@ module.exports = function requireAll(options) {
         filter: filter,
         excludeDirs: excludeDirs,
         map: map,
-        resolve: resolve,
-        merge: merge
+        merge: merge,
+        resolve: resolve
       });
 
     } else {
@@ -55,15 +55,12 @@ module.exports = function requireAll(options) {
       var module = resolve(require(filepath));
 
       if (merge) {
-        // console.log('module and is object', module, isObject(module))
-      if (isObject(module)) {
-        for (let key in module) {
-          modules[key] = module[key];
-        }
-      }  else {
+        if (isObject(module)) {
+          for (var key in module) {
+            modules[key] = module[key];
+          }
+        } else {
           modules[map(name, filepath)] = module; //use "name" for module that is not a Object
-          // console.log('module is not an object\n',module)
-          // console.log('modules after merge\n',modules)
         }
       } else {
         modules[map(name, filepath)] = module;
@@ -78,4 +75,4 @@ function identity(val) {
   return val;
 }
 
-function isObject(arg) { return Object.prototype.toString.call(arg).indexOf('Object') !== -1; }
+function isObject(arg) { return Object.prototype.toString.call(arg) === '[object Object]'; }
