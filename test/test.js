@@ -242,3 +242,30 @@ assert.deepEqual(filterFunction, {
     }
   }
 });
+
+// Tests that the absolute file path is + propertyname converted by the map
+// function are passed to the resolve function
+var moduleInfos = [];
+var resolvedValues = requireAll({
+  dirname: __dirname + '/resolved',
+  filter: /(.+)\.js$/,
+  map: function (name) {
+    return name.replace(/([A-Za-z]+)/, function (m, c) {
+      return c.toUpperCase();
+    });
+  },
+  resolve: function (fn, name, filepath) {
+    moduleInfos.push({
+      name: name,
+      path: filepath
+    });
+    return fn('arg1', 'arg2');
+  }
+});
+
+assert.equal(resolvedValues.ONEARG, 'arg1');
+assert.equal(resolvedValues.TWOARGS, 'arg2');
+assert.equal(moduleInfos[0].name, 'ONEARG');
+assert.equal(moduleInfos[0].path, __dirname + '/' + 'resolved/onearg.js');
+assert.equal(moduleInfos[1].name, 'TWOARGS');
+assert.equal(moduleInfos[1].path, __dirname + '/' + 'resolved/twoargs.js');

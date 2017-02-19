@@ -48,8 +48,10 @@ module.exports = function requireAll(options) {
     } else {
       var name = filterFile(file);
       if (!name) return;
+      
+      name = map(name, filepath);
 
-      modules[map(name, filepath)] = resolve(require(filepath));
+      modules[name] = resolve(require(filepath), name, filepath);
     }
   });
 
