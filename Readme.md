@@ -10,9 +10,9 @@ An easy way to require all files within a directory.
 
 ```js
 var controllers = require('require-all')({
-  dirname     :  __dirname + '/controllers',
-  filter      :  /(.+Controller)\.js$/,
-  excludeDirs :  /^\.(git|svn)$/,
+  dirname     : 'controllers',
+  filter      : /(.+Controller)\.js$/,
+  excludeDirs : /^\.(git|svn)$/,
   recursive   : true
 });
 
@@ -27,7 +27,7 @@ If your objective is to simply require all .js and .json files in a directory
 you can just pass a string to require-all:
 
 ``` js
-var libs = require('require-all')(__dirname + '/lib');
+var libs = require('require-all')('lib');
 ```
 
 ### Constructed object usage
@@ -37,9 +37,11 @@ them all and automatically construct the objects using `resolve`:
 
 ```js
 var controllers = require('require-all')({
-  dirname     :  __dirname + '/controllers',
-  filter      :  /(.+Controller)\.js$/,
-  resolve     : function (Controller) {
+  dirname     : 'controllers',
+  filter      : /(.+Controller)\.js$/,
+  resolve     : function (Controller, name, filepath) {
+    console.log('Constructor of `%s` from `%s` executed', name, filepath);
+
     return new Controller();
   }
 });
@@ -54,8 +56,8 @@ on both file and directory names, as they are added to the resulting object.
 
 ```js
 var controllers = require('require-all')({
-  dirname :  __dirname + '/controllers',
-  filter  :  /(.+Controller)\.js$/,
+  dirname : 'controllers',
+  filter  : /(.+Controller)\.js$/,
   map     : function (name, path) {
     return name.replace(/_([a-z])/g, function (m, c) {
       return c.toUpperCase();

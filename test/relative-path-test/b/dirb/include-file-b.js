@@ -1,0 +1,1 @@
+console.log('Required: dira/included-file-b.js');
