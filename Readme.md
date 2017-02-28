@@ -23,7 +23,8 @@ var controllers = require('require-all')({
 
 ## Advanced usage
 
-If your objective is to simply require all .js and .json files in a directory you can just pass a string to require-all:
+If your objective is to simply require all .js and .json files in a directory
+you can just pass a string to require-all:
 
 ``` js
 var libs = require('require-all')(__dirname + '/lib');
@@ -31,7 +32,8 @@ var libs = require('require-all')(__dirname + '/lib');
 
 ### Constructed object usage
 
-If your directory contains files that all export constructors, you can require them all and automatically construct the objects using `resolve`:
+If your directory contains files that all export constructors, you can require
+them all and automatically construct the objects using `resolve`:
 
 ```js
 var controllers = require('require-all')({
@@ -45,7 +47,10 @@ var controllers = require('require-all')({
 
 ### Alternative property names
 
-If your directory contains files where the names do not match what you want in the resulting property (for example, you want camelCase but the file names are snake_case), then you can use the `map` function. The `map` function is called on both file and directory names, as they are added to the resulting object.
+If your directory contains files where the names do not match what you want in
+the resulting property (for example, you want camelCase but the file names are
+snake_case), then you can use the `map` function. The `map` function is called
+on both file and directory names, as they are added to the resulting object.
 
 ```js
 var controllers = require('require-all')({
@@ -61,7 +66,15 @@ var controllers = require('require-all')({
 
 ### Filtering files
 
-If your directory contains files that you do not want to require, or that you want only a part of the file's name to be used as the property name, `filter` can be a regular expression. In the following example, the `filter` is set to `/^(.+Controller)\.js$/`, which means only files that end in "Conroller.js" are required, and the resulting property name will be the name of the file without the ".js" extension. For example, the file "MainController.js" will match, and since the first capture group will contain "MainController", that will be the property name used.
+If your directory contains files that you do not want to require, or that you
+want only a part of the file's name to be used as the property name, `filter`
+can be a regular expression. In the following example, the `filter` is set to
+`/^(.+Controller)\.js$/`, which means only files that end in "Controller.js"
+are required, and the resulting property name will be the name of the file
+without the ".js" extension. For example, the file "MainController.js" will
+match, and since the first capture group will contain "MainController", that
+will be the property name used. If no capture group is used, then the entire
+match will be used as the name.
 
 ```js
 var controllers = require('require-all')({
@@ -70,7 +83,10 @@ var controllers = require('require-all')({
 });
 ```
 
-For even more advanced usage, the `filter` option also accepts a function that is invoked with the file name as the first argument. The filter function is expected to return a falsy value to ignore the file, otherwise a string to use as the property name.
+For even more advanced usage, the `filter` option also accepts a function that
+is invoked with the file name as the first argument. The filter function is
+expected to return a falsy value to ignore the file, otherwise a string to use
+as the property name.
 
 ```js
 var controllers = requireAll({

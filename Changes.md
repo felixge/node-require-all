@@ -4,9 +4,9 @@ This file is a manually maintained list of changes for each release. Feel free
 to add your changes here when sending pull requests. Also send corrections if
 you spot any mistakes.
 
-## v2.2.0
+## v2.2.0 (2017-02-18)
 
-* Allow custom "loader" function for non-require-able files #44		
+* Accept "filter" RegExps without any capture groups #43 #46
 
 ## v2.1.0 (2016-12-09)
 

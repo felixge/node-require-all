@@ -27,7 +27,7 @@ module.exports = function requireAll(options) {
     var match = filename.match(filter);
     if (!match) return;
 
-    return match[1];
+    return match[1] || match[0];
   }
 
   var files = fs.readdirSync(dirname);
