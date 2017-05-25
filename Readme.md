@@ -98,6 +98,30 @@ var controllers = requireAll({
   }
 });
 ```
+### Merging directory modules
+
+In the case where you want to build a single "flat" module that comes from a set of modules within a directory use the `merge` option.
+With this option set each file/module will not create it's own "name" property/key in combined module but rather any properties/keys in each file/module will be merged.  In the case where a module file does not export an actual object the "name" property/key will be used.  If you enable recursion *(the default)* the same will happen in each subdirectory.
+```js
+var merge = requireAll({
+  dirname: __dirname + '/merge',
+  merge: true
+});
+```
+
+**Example:**  the directory tree in this repo `/test/merge` will result in this hash   
+```js
+{
+afunction: function test() { return 'afucntionresult' },
+anarray: [ 1, 2, 3, 4 ],
+astring: 'justastring',
+state: 'Kentucky',
+world: true,
+universe: 42,
+first: { second: { third: { third1: 'deep', third2: 'merge' } } },
+sub: { system: 'Sol', country: 'France' }
+}
+```
 
 [npm-image]: https://img.shields.io/npm/v/require-all.svg
 [npm-url]: https://npmjs.org/package/require-all
