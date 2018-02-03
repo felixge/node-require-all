@@ -11,7 +11,10 @@ node_js:
   - '5.12'
   - '6.12'
   - '7.10'
+  - '8.9'
 
 sudo: false
+
+before_install: npm config set shrinkwrap false
 
 script: npm test
