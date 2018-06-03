@@ -10,9 +10,6 @@
   ],
   "license": "MIT",
   "repository": "felixge/node-require-all",
-  "devDependencies": {
-    "semver": "4.3.2"
-  },
   "files": [
     "Changes.md",
     "LICENSE",
@@ -20,7 +17,7 @@
     "Readme.md"
   ],
   "engines": {
-    "node": "*"
+    "node": ">= 0.8"
   },
   "scripts": {
     "test": "node test/test.js"

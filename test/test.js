@@ -1,5 +1,4 @@
 var assert = require('assert');
-var semver = require('semver');
 var requireAll = require('..');
 
 var controllers = requireAll({
@@ -165,35 +164,30 @@ assert.deepEqual(controllersMap, {
   }
 });
 
-//
-// requiring json only became an option in 0.6+
-//
-if (semver.gt(process.version, 'v0.6.0')) {
-  var mydir = requireAll({
-    dirname: __dirname + '/mydir'
-  });
+var mydir = requireAll({
+  dirname: __dirname + '/mydir'
+});
 
-  var mydir_contents = {
-    foo: 'bar',
-    hello: {
-      world: true,
-      universe: 42
+var mydir_contents = {
+  foo: 'bar',
+  hello: {
+    world: true,
+    universe: 42
+  },
+  sub: {
+    config: {
+      settingA: 'A',
+      settingB: 'B'
     },
-    sub: {
-      config: {
-        settingA: 'A',
-        settingB: 'B'
-      },
-      yes: true
-    }
-  };
+    yes: true
+  }
+};
 
-  assert.deepEqual(mydir, mydir_contents);
+assert.deepEqual(mydir, mydir_contents);
 
-  var defaults = requireAll(__dirname + '/mydir');
+var defaults = requireAll(__dirname + '/mydir');
 
-  assert.deepEqual(defaults, mydir_contents);
-}
+assert.deepEqual(defaults, mydir_contents);
 
 var unfiltered = requireAll({
   dirname: __dirname + '/filterdir',
