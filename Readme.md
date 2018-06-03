@@ -99,6 +99,8 @@ var controllers = requireAll({
 });
 ```
 
+Note that empty directories are always excluded from the end result.
+
 [npm-image]: https://img.shields.io/npm/v/require-all.svg
 [npm-url]: https://npmjs.org/package/require-all
 [downloads-image]: https://img.shields.io/npm/dm/require-all.svg

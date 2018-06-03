@@ -7,6 +7,7 @@ you spot any mistakes.
 ## HEAD
 
 * Drop support for Node.js 0.6 and below #54 #56
+* Skip adding keys for directories without modules #51 #53
 
 ## v2.2.0 (2017-02-18)
 

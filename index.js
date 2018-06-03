@@ -37,13 +37,17 @@ module.exports = function requireAll(options) {
 
       if (excludeDirectory(file)) return;
 
-      modules[map(file, filepath)] = requireAll({
+      var subModules = requireAll({
         dirname: filepath,
         filter: filter,
         excludeDirs: excludeDirs,
         map: map,
         resolve: resolve
       });
+
+      if (Object.keys(subModules).length === 0) return;
+
+      modules[map(file, filepath)] = subModules;
 
     } else {
       var name = filterFile(file);
