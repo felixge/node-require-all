@@ -6,7 +6,7 @@ you spot any mistakes.
 
 ## HEAD
 
-* Drop support for Node.js 0.6 and below
+* Drop support for Node.js 0.6 and below #54 #56
 
 ## v2.2.0 (2017-02-18)
 
