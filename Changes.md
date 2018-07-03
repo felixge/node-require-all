@@ -4,7 +4,7 @@ This file is a manually maintained list of changes for each release. Feel free
 to add your changes here when sending pull requests. Also send corrections if
 you spot any mistakes.
 
-## HEAD
+## v3.0.0 (2018-07-02)
 
 * Drop support for Node.js 0.6 and below #54 #56
 * Skip adding keys for directories without modules #51 #53
