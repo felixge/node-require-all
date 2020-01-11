@@ -1,6 +1,19 @@
 var assert = require('assert');
 var requireAll = require('..');
 
+var typescript = requireAll(__dirname + '/typescript');
+
+assert.deepEqual(typescript, {
+  'foo': 'bar'
+});
+
+var react = requireAll(__dirname + '/react');
+
+assert.deepEqual(react, {
+  'typescript': 'react',
+  'javascript': 'react'
+});
+
 var controllers = requireAll({
   dirname: __dirname + '/controllers',
   filter: /(.+Controller)\.js$/
