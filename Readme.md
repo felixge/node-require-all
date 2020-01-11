@@ -23,7 +23,7 @@ var controllers = require('require-all')({
 
 ## Advanced usage
 
-If your objective is to simply require all .js and .json files in a directory
+If your objective is to simply require all .js, .ts, .jsx, .tsx and .json files in a directory
 you can just pass a string to require-all:
 
 ``` js
