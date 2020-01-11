@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 var DEFAULT_EXCLUDE_DIR = /^\./;
-var DEFAULT_FILTER = /^([^\.].*)\.(j|t)sx?(on)?|$/;
+var DEFAULT_FILTER = /^([^\.].*)\.(j|t)sx?(on)?$/;
 var DEFAULT_RECURSIVE = true;
 
 module.exports = function requireAll(options) {
